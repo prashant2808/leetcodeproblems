@@ -1,0 +1,48 @@
+class Solution {
+    public int getMaximumGold(int[][] grid) {
+        int max=0;
+         int row=grid.length;
+        int col=grid[0].length;
+        for(int i=0;i<row;i++)
+        {
+            for(int j=0;j<col;j++)
+            {
+                int temp=gold(grid,i,j);
+                max=Math.max(max,temp);
+                
+            }
+        }
+        return  max;
+        
+    }
+     int gold(int [][]grid,int i,int j)
+    {
+        if( i==grid.length||j==grid[0].length||i<0||j<0||grid[i][j]==0)
+        {
+            return 0;
+        }
+         
+         
+        
+         
+         int x= grid[i][j];
+         grid[i][j]=0;
+          
+          int upsum =  gold(grid,i+1,j);
+         
+             int downsum =gold(grid,i-1,j);
+         
+            int rightsum= gold(grid,i,j+1);
+         
+             int leftsum =gold(grid,i,j-1);
+         
+        grid[i][j]=x;
+        return 
+        x+Math.max(Math.max(Math.max(upsum,downsum),rightsum),leftsum);
+
+
+
+
+    }
+    
+}
