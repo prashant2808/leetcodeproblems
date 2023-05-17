@@ -123,35 +123,16 @@ class Solution {
     //Function to find the height of a binary tree.
     int height(Node node) 
     {
-         Queue<Node> q= new LinkedList<>();
-         int height=1;
-        
-        if(node ==null)
-        return 0;
-        q.offer(node);
-        q.offer(null);
-        while(!q.isEmpty())
-        {
-            Node curr=q.poll();
-            if(curr==null)
-            {
-                if(q.isEmpty())
-                return height;
-                 q.add(null);
-                 height++;
-                 continue;
-            }
-            if(curr.left!=null)
-            {
-                q.offer(curr.left);
-            }
-             if(curr.right!=null)
-            {
-                q.offer(curr.right);
-            }
-            
+          
+        return ans(node);    
          
-       }
-       return height;
+       
+       
+    }
+   static int ans(Node node)
+    {
+        if(node==null)
+        return 0;
+        return 1+Math.max(ans(node.left),ans(node.right));
     }
 }
