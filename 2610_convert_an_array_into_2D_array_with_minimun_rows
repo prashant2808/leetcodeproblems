@@ -1,0 +1,39 @@
+class Solution {
+    public List<List<Integer>> findMatrix(int[] nums) {
+        List<List<Integer>> res= new ArrayList<>();
+        List<HashSet<Integer>> list= new ArrayList<>();
+        list.add(new HashSet<>());
+        int i=0;
+        while(i<nums.length)
+        {
+            boolean check =false;
+            for(int j=0;j<list.size();j++)
+            { 
+            HashSet<Integer> set =  list.get(j);
+            if(set.add(nums[i]))
+            {
+                check=true;
+                break;
+            }
+         
+            }
+            if(!check)
+            {
+                list.add(new HashSet());
+                list.get(list.size()-1).add(nums[i]);
+            }
+
+            
+
+            i++;
+
+        }
+        for(int j=0;j<list.size();j++)
+        {
+            res.add(new ArrayList(list.get(j)));
+        }
+        return res;
+
+         
+    }
+}
