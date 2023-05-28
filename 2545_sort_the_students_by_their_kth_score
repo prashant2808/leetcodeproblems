@@ -1,0 +1,31 @@
+class Solution {
+    public int[][] sortTheStudents(int[][] score, int k) {
+        int i=0;
+        while(i<score.length)
+        {
+            int row=findminrow(score,i,k);
+            for(int j=0;j<score[0].length;j++)
+            {
+               int temp= score[i][j];
+               score[i][j]=score[row][j];
+               score[row][j]=temp;
+            }
+            i++;
+
+        }
+        return score;
+        
+    }
+
+    int findminrow(int [][]arr ,int i,int k)
+    {
+        int max =i;
+        for(int j=i;j<arr.length;j++)
+        {
+            if(arr[j][k]>arr[max][k])
+            max=j;
+        }
+        return max;
+    }
+        
+}
