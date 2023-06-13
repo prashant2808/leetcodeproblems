@@ -1,0 +1,33 @@
+class Solution {
+    public int lengthOfLongestSubstring(String s) {
+        // Create a set to track unique characters seen so far
+        Set<Character> set = new HashSet<>();
+        
+        // Initialize variables to keep track of current longest substring length
+        int left = 0;
+        int right = 0;
+        int maxLen = 0;
+        
+        // Slide the window to the right until the end of the string is reached
+        while (right < s.length()) {
+               
+            char curr = s.charAt(right);
+            
+            // If the current character has not been seen before, add it to the set and update the longest substring length
+            if (!set.contains(curr)) {
+                set.add(curr);
+                maxLen = Math.max(maxLen, right - left + 1);
+                right++;
+            }
+            
+            // If the current character has been seen before, slide the left side of the window to the right until the character is no longer in the set
+            else {
+                set.remove(s.charAt(left));
+                left++;
+            }
+        }
+        
+        return maxLen;
+        
+    }
+}
