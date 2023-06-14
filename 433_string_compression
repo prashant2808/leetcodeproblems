@@ -1,0 +1,28 @@
+class Solution {
+    public int compress(char[] chars) {
+       int i=0;
+       int j=0;
+       while(i<chars.length&&j<chars.length)
+       {
+           char ch= chars[j];
+           int count=0;
+           while(j<chars.length&&chars[j]==ch)
+           {
+               count++;
+               j++;
+           }
+           chars[i]=ch;
+           i++;
+           if(count>1){
+               
+               for( char c:String.valueOf(count).toCharArray())
+               {
+                   chars[i]=c;
+                   i++;
+               }
+           }
+       }
+       return i;
+        
+    }
+}
