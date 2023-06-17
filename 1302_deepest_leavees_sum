@@ -1,0 +1,90 @@
+/* APPPROACH 1 ---- BRUTE FORCE */
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    public int deepestLeavesSum(TreeNode root) {
+        List<List<Integer>> res= new ArrayList<>();
+        Queue<TreeNode> q= new LinkedList<>();
+        q.offer(root);
+        while(!q.isEmpty())
+        {
+            List<Integer> temp = new ArrayList<>();
+            int levsize=q.size();
+            for(int i=0;i<levsize;i++)
+            {
+                TreeNode node = q.poll();
+                if(node.left!=null)q.offer(node.left);
+                 if(node.right!=null)q.offer(node.right);
+                 temp.add(node.val);
+            }
+            res.add(temp);
+        }
+         List<Integer> temp = res.get(res.size()-1);
+         int ans=0;
+         for(int i=0;i<temp.size();i++)
+         {
+             ans+=temp.get(i);
+         }
+         return ans;
+
+        
+    }
+}
+/*APPROACH 2 ---- OPTIMAL APPROACH*/
+/*
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    int maxlev=Integer.MIN_VALUE;
+    int maxsum=0;
+    int lev=0;
+    public int deepestLeavesSum(TreeNode root) {
+        traverse(root,lev);
+        return maxsum;
+        
+    }
+    void traverse(TreeNode root,int lev)
+    {
+        if(root==null)return;
+        lev+=1;
+        traverse(root.left,lev);
+        if(root.left==null&&root.right==null)
+        {
+            if(maxlev<lev)
+            {
+                maxlev=lev;
+                maxsum=root.val;
+            }
+           else if(maxlev==lev)
+            {
+                maxsum+=root.val;
+            }
+        }
+        traverse(root.right,lev);
+    }
+}
