@@ -1,0 +1,71 @@
+/*------BRUTE FORCE APPROACH-------*/
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        ArrayList<TreeNode> res1= new ArrayList<>();
+        ArrayList<TreeNode> res2= new ArrayList<>();
+        path(root,res1,p);
+        path(root,res2,q);
+        int i=0;
+        while(i<res1.size()&&i<res2.size())
+        {
+            if(res1.get(i)!=res2.get(i))
+            {
+                
+                break;
+
+            }
+             i++;    
+        }
+        return res1.get(i-1); 
+        
+    }
+    boolean path(TreeNode root,ArrayList<TreeNode>res,TreeNode target)
+    {
+        if(root==null)
+        return false;
+        res.add(root);
+        if(root==target)
+        {
+            return true;
+        }
+        if(path(root.left,res,target)||path(root.right,res,target))
+        return true;
+        res.remove(res.size()-1);
+        return false;
+
+   }
+}
+/*------OPTIMAL APPROACH-----/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        if(root==null)return root;
+        return path(root,p,q);
+    }
+    TreeNode path(TreeNode root,TreeNode p,TreeNode q)
+    {
+        if(root==null)return null;
+        if(root==p||root==q)return root;
+        TreeNode left=path(root.left,p,q);
+        TreeNode right=path(root.right,p,q);
+        if(left!=null&&right!=null)return root;
+        return left!=null?left:right;
+    }
+        
+   }
