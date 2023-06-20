@@ -1,0 +1,49 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public List<Integer> distanceK(TreeNode root, TreeNode target, int k) {
+     HashMap<TreeNode,TreeNode> parent =new HashMap<>();
+     HashSet<TreeNode> visited =new HashSet<>();
+     List<Integer> res = new ArrayList<>();
+     if(root==null)return res;
+     Queue<TreeNode> q= new LinkedList<>();
+     fillparent(root,parent);
+     q.offer(target);
+     while(!q.isEmpty())
+     {
+         int size=q.size();
+          for(int i=0;i<size;i++)
+          {
+              TreeNode node =q.poll();
+              visited.add(node);
+              if(k==0)res.add(node.val);
+              if(parent.containsKey(node)&&!visited.contains(parent.get(node)))
+              {
+                  q.offer(parent.get(node));
+              }
+              if(node.left!=null&&!visited.contains(node.left))q.offer(node.left);
+              if(node.right!=null&&!visited.contains(node.right))q.offer(node.right);
+          }
+          k--;
+          if(k<0)break;
+     }
+     return res;
+       
+    }
+    static void fillparent(TreeNode root,HashMap<TreeNode,TreeNode> map)
+    {
+        if(root==null)return;
+        if(root.left!=null)map.put(root.left,root);
+        if(root.right!=null)map.put(root.right,root);
+        fillparent(root.left,map);
+        fillparent(root.right,map);
+
+    }
+}
