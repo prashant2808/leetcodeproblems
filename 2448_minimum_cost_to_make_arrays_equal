@@ -1,0 +1,40 @@
+class Solution {
+    public long minCost(int[] nums, int[] cost) {
+      long ans=Long.MAX_VALUE;
+      int left=nums[0];
+      int right=nums[0];
+      for(int i=0;i<nums.length;i++)
+      {
+          left=Math.min(left,nums[i]);
+          right=Math.max(right,nums[i]);
+      }
+      right=right+1;
+      while(left<right)
+      {
+          int mid=left+(right-left)/2;
+          long temp1=calcost(nums,cost,mid);
+            long temp2=calcost(nums,cost,mid+1);
+            if(temp1<temp2)
+            {
+                right=mid;
+            }
+            else
+            left=mid+1;
+            ans=Math.min(ans,Math.min(temp1,temp2));
+
+      }
+      return ans;
+
+       
+    }
+    long calcost(int []nums,int []cost,int target)
+    {
+        long ans=0;
+        for(int i=0;i<nums.length;i++)
+        {
+            ans+=Math.abs(target-nums[i])*(long)(cost[i]);
+        }
+        return ans;
+    }
+
+}
