@@ -1,0 +1,27 @@
+class Solution {
+    public int numSubseq(int[] nums, int target) {
+        int n=nums.length;
+        int mod =1000000007;
+        Arrays.sort(nums);
+        int [] arr  = new int [n];
+        arr[0]=1;
+        for(int i=1;i<n;i++)
+        {
+            arr[i]=(arr[i-1]<<1)%mod;
+        }
+        int start=0;
+        int end=nums.length-1;
+        int ans=0;
+        while(start<=end)
+        {
+            if(nums[start]+nums[end]>target)
+            end--;
+            else{
+                ans=(ans+arr[end-start])%mod;
+                start++;
+            }
+        }
+        return ans;
+    }
+    
+}
