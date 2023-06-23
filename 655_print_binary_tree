@@ -1,0 +1,135 @@
+/*------BRUTE FORCE WAY-------*/
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+ class Pair{
+     TreeNode node;
+     int col;
+     public Pair(TreeNode node,int col){
+         this.col=col;
+         this.node= node;
+     }
+ }
+class Solution {
+    public List<List<String>> printTree(TreeNode root) {
+        List<List<String>> res= new ArrayList<>();
+        if(root==null)return res;
+        int h=height(root)-1;
+        int colsize=(int)Math.pow(2,h+1)-1;
+        String [][] arr = new String[h+1][colsize];
+        for(String[] str:arr)
+        {
+            Arrays.fill(str,"");
+        }
+        Queue<Pair> q= new LinkedList<>();
+        q.add(new Pair(root,(colsize-1)/2));
+        int row=0;
+        arr[row][(colsize-1)/2]+=root.val;
+        while(!q.isEmpty())
+        {
+            int size= q.size();
+            for(int i=0;i<size;i++)
+            {
+                 Pair p=q.poll();
+                 int colparent=p.col;
+                 TreeNode node =p.node;
+                if(node.left!=null)
+                {
+                    int leftcol=colparent-(int)Math.pow(2,h-row-1);
+                    arr[row+1][leftcol]+=node.left.val;
+                    q.offer(new Pair(node.left,leftcol));
+                }
+                if(node.right!=null)
+                {
+                    int rightcol=colparent+(int)Math.pow(2,h-row-1);
+                    arr[row+1][rightcol]+=node.right.val;
+                    q.offer(new Pair(node.right,rightcol));
+                }
+            }
+            row++;
+        }
+        for(String [] st:arr)
+        {
+            List<String> temp = new ArrayList<>();
+            for(int i=0;i<st.length;i++)
+            {
+                temp.add(st[i]);
+            }
+            res.add(temp);
+        }
+        return res;
+        
+
+        
+        
+    }
+    int height(TreeNode root)
+    {
+        if(root==null)return 0;
+        return 1+Math.max(height(root.left),height(root.right));
+    }
+}
+/*------OPTIMAL WAY USING RECURSION ------*/
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+  
+class Solution {
+    public List<List<String>> printTree(TreeNode root) {
+        List<List<String>> res= new ArrayList<>();
+        if(root==null)return res;
+        int h=height(root);
+        int col=(int)Math.pow(2,h)-1;
+        List<String> temp = new ArrayList<>(col);
+         for(int i=0;i<col;i++)
+         {
+             temp.add("");
+         }
+         for(int i=0;i<h;i++)
+         {
+             res.add(new ArrayList<>(temp));
+         }
+        set(root,res,0,h,0,col-1);
+        return res;
+
+         
+        
+    }
+    void set(TreeNode root,List<List<String>> res, int row,int height,int left,int right)
+    {
+        if(row>=height||root==null)return;
+        int mid=(left+right)/2;
+        res.get(row).set(mid,""+root.val);
+        set(root.left,res,row+1,height,left,mid-1);
+        set(root.right,res,row+1,height,mid+1,right);
+    }
+    int height(TreeNode root)
+    {
+        if(root==null)return 0;
+        return 1+Math.max(height(root.left),height(root.right));
+    }
+}
