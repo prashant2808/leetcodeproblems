@@ -1,0 +1,26 @@
+class Solution {
+    public String countAndSay(int n) {
+        String res="1";
+        String ans="";
+        while(n-->1)
+        {
+            int i=0;
+            while(i<res.length())
+            {
+                int count =0;
+                char ch =res.charAt(i);
+                while(i<res.length()&&res.charAt(i)==ch)
+                {
+                    count++;
+                    i++;
+                }
+                ans+=count;
+                ans+=ch;
+            }
+            res=ans;
+            ans="";
+        }
+        return res;
+              
+    }
+}
