@@ -1,0 +1,38 @@
+class Solution {
+    public String reorganizeString(String s) {
+        PriorityQueue<Map.Entry<Character,Integer>> pq= new PriorityQueue<>((a,b)->b.getValue()-a.getValue());
+        HashMap<Character,Integer> map= new HashMap<>();
+        for(int i=0;i<s.length();i++)
+        {
+            char ch =s.charAt(i);
+            map.put(ch,map.getOrDefault(ch,0)+1);
+        }
+        for(Map.Entry<Character,Integer> entry:map.entrySet())
+        {
+            pq.offer(entry);
+        }
+        StringBuilder sb= new StringBuilder();
+        while(pq.size()>1)
+        {
+           Map.Entry<Character,Integer> entry1 =pq.poll();
+           Map.Entry<Character,Integer> entry2 =pq.poll();
+           sb.append(entry1.getKey());
+           sb.append(entry2.getKey());
+           entry1.setValue(entry1.getValue()-1);
+           entry2.setValue(entry2.getValue()-1);
+           if(entry1.getValue()>0)pq.offer(entry1);
+           if(entry2.getValue()>0)pq.offer(entry2);
+        }
+        if(pq.isEmpty())return sb.toString();
+        else
+        {
+            Map.Entry<Character,Integer> entry =pq.poll();
+            if(entry.getValue()==1)
+            sb.append(entry.getKey());
+            else
+            return "";
+        }
+        return sb.toString();
+        
+    }
+}
