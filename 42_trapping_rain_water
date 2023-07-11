@@ -1,0 +1,33 @@
+class Solution {
+    public int trap(int[] height) {
+    
+    int hl[]= new int [height.length];
+    int hr[]= new int [height.length];
+    int maxl=height[0];
+    for(int i=0;i<hl.length;i++)
+    {
+        if(height[i]>maxl)
+        {
+            maxl=height[i];
+        }
+        hl[i]=maxl;
+    }
+    int maxr=height[height.length-1];
+    for(int i=hr.length-1;i>=0;i--)
+    {
+        if(height[i]>maxr)
+        {
+            maxr=height[i];
+        }
+        hr[i]=maxr;
+    }
+    int ans=0;
+    for(int i=0;i<height.length;i++)
+    {
+        int area=Math.min(hl[i],hr[i])-height[i];
+        ans+=area;
+    }
+    return ans;
+        
+    }
+}
