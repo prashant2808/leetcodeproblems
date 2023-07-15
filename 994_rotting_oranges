@@ -1,0 +1,57 @@
+ class Pair{
+    int time;
+    int row;
+    int col;
+    public Pair(int time,int row,int col){
+        this.time=time;
+        this.row=row;
+        this.col=col;
+    }
+    
+}
+class Solution {
+    public int orangesRotting(int[][] grid) {
+        Queue<Pair> q= new LinkedList<>();
+        for(int i=0;i<grid.length;i++)
+        {
+            for(int j=0;j<grid[0].length;j++)
+            {
+                if(grid[i][j]==2)
+                {
+                    q.offer(new Pair(0,i,j));
+                }
+            }
+        }
+        int ans=0;
+        while(!q.isEmpty())
+        {
+            Pair p= q.poll();
+            int time =p.time;
+            int row=p.row;
+            int col=p.col;
+            ans=time;
+            for(int i=-1;i<=1;i++)
+            {
+                for(int j=-1;j<=1;j++)
+                {
+                    if(i+j==-2||i+j==2||i+j==0)continue;
+                    int nrow=row+i;
+                    int ncol=col+j;
+                    if(nrow>=0&&ncol>=0&&nrow<grid.length&&ncol<grid[0].length&&grid[nrow][ncol]==1)
+                    {
+                       grid[nrow][ncol]=2;
+                        q.offer(new Pair(time+1,nrow,ncol));
+                    }
+
+                }
+            }
+        }
+        for(int i=0;i<grid.length;i++)
+        {
+            for(int j=0;j<grid[0].length;j++)
+            if(grid[i][j]==1)return -1;
+        }
+        return ans;
+        
+    }
+}
