@@ -1,0 +1,56 @@
+class Pair{
+    int id;
+    int points;
+    public Pair(int id,int points)
+    {
+        this.id=id;
+        this.points=points;
+    }
+}
+class Solution {
+    public List<Integer> topStudents(String[] positive_feedback, String[] negative_feedback, String[] report, int[] student_id, int k) {
+        int n=report.length;
+        Set<String> pos= new HashSet<>();
+        Set<String> neg= new HashSet<>();
+        for(int i=0;i<positive_feedback.length;i++)
+        {
+            pos.add(positive_feedback[i]);
+        }
+        for(int i=0;i<negative_feedback.length;i++)
+        {
+            neg.add(negative_feedback[i]);
+        }
+        PriorityQueue<Pair> pq= new PriorityQueue<>((a,b)->{
+            if(a.points==b.points)return a.id-b.id;
+            return b.points-a.points;
+        });
+        for(int i=0;i<n;i++)
+        {
+            int id=student_id[i];
+            int points=0;
+            String feed=report[i];
+            String [] arr= feed.split(" ");
+            for(int j=0;j<arr.length;j++)
+            {
+                String st= arr[j];
+                if(pos.contains(st))
+                {
+                    points+=3;
+                }
+                if(neg.contains(st))
+                {
+                    points-=1;
+                }
+            }
+            pq.add(new Pair(id,points));
+
+        }
+        List<Integer> res= new ArrayList<>();
+        for(int i=0;i<k;i++)
+        {
+            res.add(pq.poll().id);
+        }
+        return res;
+        
+    }
+}
