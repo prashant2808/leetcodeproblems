@@ -1,0 +1,30 @@
+ class Solution {
+    int cost=Integer.MAX_VALUE;
+    public int minCost(int[] startPos, int[] homePos, int[] rowCosts, int[] colCosts) {
+         int cost=0;
+         int i=startPos[0];
+         int j=startPos[1];
+         if(i==homePos[0]&&j==homePos[1])return 0;
+         while(i<homePos[0])
+         {
+             i+=1;
+             cost+=rowCosts[i];
+         }
+         while(i>homePos[0])
+         {
+             i-=1;
+             cost+=rowCosts[i];
+         }
+         while(j<homePos[1])
+         {
+             j+=1;
+             cost+=colCosts[j];
+         }
+         while(j>homePos[1])
+         {
+             j-=1;
+             cost+=colCosts[j];
+         }
+         return cost;
+    }
+}
