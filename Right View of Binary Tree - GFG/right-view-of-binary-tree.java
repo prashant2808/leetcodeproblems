@@ -131,36 +131,18 @@ class Node
 class Solution{
     //Function to return list containing elements of right view of binary tree.
     ArrayList<Integer> rightView(Node node) {
-            List<List<Integer>> res= new ArrayList<>();
-        Queue<Node> q= new LinkedList<>();
-        ArrayList<Integer> ans = new ArrayList<>();
-        if(node==null)return ans;
-        q.offer(node);
-        while(!q.isEmpty())
-        {
-            List<Integer> temp = new ArrayList<>();
-            int levelsize=q.size();
-            for(int i=0;i<levelsize;i++)
-            {
-                Node current =q.peek();
-                if(current.left!=null)
-                {
-                    q.offer(current.left);
-                }
-                 if(current.right!=null)
-                {
-                    q.offer(current.right);
-                }
-                temp.add(q.poll().data);
-            }
-            res.add(temp);
-        }
-        for(int i=0;i<res.size();i++)
-        {
-             List<Integer> temp = res.get(i);
-             ans.add(temp.get(temp.size()-1));
-        }
-        return ans;
+        //add code here.
+          ArrayList<Integer> result= new ArrayList<>();
+        view(node,result,0);
+        return result;
+         
+    }
+    static void view(Node root,ArrayList<Integer> result,int depth)
+    {
+        if(root==null)return;
+    if(depth==result.size())result.add(root.data);
+    view(root.right,result,depth+1);
+        view(root.left,result,depth+1);
     }
 }
 
