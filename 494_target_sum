@@ -1,0 +1,18 @@
+class Solution {
+    public int findTargetSumWays(int[] nums, int target) {
+        return recurse(nums,0,0,target);
+        
+    }
+    static int  recurse(int [] nums,int i,int curr,int target)
+    {
+        if(i==nums.length)
+        {
+            if(curr==target)
+            return 1;
+            else 
+            return 0;
+        }
+        return recurse(nums,i+1,curr+nums[i],target)+recurse(nums,i+1,curr-nums[i],target);
+
+    }
+}
