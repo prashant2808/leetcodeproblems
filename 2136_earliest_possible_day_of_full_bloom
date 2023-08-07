@@ -1,0 +1,33 @@
+class Pair
+{
+    int ptime;
+    int gtime;
+    public Pair(int ptime,int gtime){
+        this.ptime=ptime;
+        this.gtime=gtime;
+      
+    }
+
+    
+
+}
+class Solution {
+    public int earliestFullBloom(int[] plantTime, int[] growTime) {
+      List<Pair> li= new ArrayList<>();
+      for(int i=0;i<plantTime.length;i++)
+      {
+          li.add(new Pair(plantTime[i],growTime[i]));
+      }
+      Collections.sort(li,(a,b)->b.gtime-a.gtime);
+      int time=0;
+      int ans=0;
+      for(int i=0;i<li.size();i++)
+      {
+          time+=li.get(i).ptime;
+         ans=Math.max(ans,time+li.get(i).gtime);
+      }
+      return ans;
+
+    }
+    
+}
