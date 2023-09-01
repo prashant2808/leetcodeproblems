@@ -1,0 +1,37 @@
+class Solution {
+    public boolean checkInclusion(String s1, String s2) {
+        HashMap<Character, Integer> map1 = new HashMap<>();
+        for(int i=0;i<s1.length();i++)
+        {
+            char ch=s1.charAt(i);
+             map1.put(ch, map1.getOrDefault(ch, 0) + 1);  
+        }
+        HashMap<Character, Integer> map2 = new HashMap<>();
+        int i=0;
+        int j=0;
+        int k=s1.length();
+        while(j<s2.length())
+        {
+            char ch=s2.charAt(j);
+            map2.put(ch,map2.getOrDefault(ch,0)+1);
+            if(j-i+1<k)j++;
+            else if(j-i+1==k)
+            {
+                if(map1.equals(map2))return true;
+                char c=s2.charAt(i);
+                if(map2.containsKey(c))
+                {
+                    map2.put(c,map2.get(c)-1);
+                    if(map2.get(c)==0)map2.remove(c);
+                }
+                i++;
+                j++;
+            }
+
+            
+        }
+        return false;
+
+        
+    }
+}
