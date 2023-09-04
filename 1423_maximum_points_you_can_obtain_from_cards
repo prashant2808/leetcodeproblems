@@ -1,0 +1,31 @@
+class Solution {
+    public int maxScore(int[] cardPoints, int k) {
+         int sum=0;
+         int n=cardPoints.length;
+         int ans=Integer.MIN_VALUE;
+        int i=n-k;
+        if(k>n)return -1;
+        int j=n-k;
+
+        int total=0;
+        while(j<n+k)
+        {
+            sum+=cardPoints[j%n];
+            if(j-i+1<k)
+            {
+                j++;
+            }
+            else if(j-i+1==k)
+            {
+                 ans=Math.max(ans,sum);
+                sum-=cardPoints[i%n];
+                i++;
+                j++;
+            }
+
+        }
+        return ans;
+        
+        
+    }
+}
