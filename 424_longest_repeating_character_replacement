@@ -1,0 +1,48 @@
+class Solution {
+    public int characterReplacement(String s, int k) {
+        HashSet<Character> set= new HashSet<>();
+        for(int i=0;i<s.length();i++)
+        {
+            set.add(s.charAt(i));
+        }
+        int ans=0;
+        for(char ch:set)
+        {
+            ans=Math.max(ans,maxwind(s,ch,k));
+        }
+        return ans;
+
+        
+        
+    }
+    int maxwind(String s,char ch,int k)
+    {
+
+        int i=0;
+        int j=0;
+        int count=0;
+        int ans=0;
+        while(j<s.length())
+        {
+            char c=s.charAt(j);
+            if(c!=ch)count++;
+            if(count<=k)
+            {
+                ans=Math.max(j-i+1,ans);
+
+            }
+            else if(count>k)
+            {
+                while(count>k)
+                {
+                    if(s.charAt(i)!=ch)count--;
+                    i++;
+                }
+                
+            }
+            j++;
+        }
+        return ans;
+
+    }
+}
