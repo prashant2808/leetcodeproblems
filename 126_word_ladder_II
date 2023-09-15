@@ -1,3 +1,65 @@
+/*-----FOR INTERVIEW PURPOSE  (USING BFS)----*/
+
+class Solution {
+    public List<List<String>> findLadders(String beginWord, String endWord, List<String> wordList) {
+         HashSet<String> set= new HashSet<>();
+        for(int i=0;i<wordList.size();i++)set.add(wordList.get(i));
+        List<List<String>> res= new ArrayList<>();
+        List<String> ls= new ArrayList<>();
+        ls.add(beginWord);
+         Queue<List<String>> q= new LinkedList<>();
+        q.add(ls);
+        List<String> usedonLevel= new ArrayList<>();
+        usedonLevel.add(beginWord);
+        int level=0;
+        while(!q.isEmpty())
+        {
+            List<String> vec=q.poll();
+            if(vec.size()>level)
+            {
+                level++;
+                for(String s:usedonLevel)
+                {
+                    set.remove(s);
+                }
+            }
+            String word=vec.get(vec.size()-1);
+            if(word.equals(endWord))
+            {
+                if(res.size()==0)
+                {
+                    res.add(vec);
+                    
+                }
+                else if(vec.size()==res.get(0).size())res.add(vec);
+            }
+            for(int i=0;i<word.length();i++)
+            {
+                for(char ch='a';ch<='z';ch++)
+                {
+                    char []  arr= word.toCharArray();
+                    arr[i]=ch;
+                    String replaced=new String(arr);
+                    if(set.contains(replaced))
+                    {
+                        vec.add(replaced);
+                        List<String> temp= new ArrayList<>(vec);
+                        q.add(temp);
+                        usedonLevel.add(replaced);
+                        vec.remove(vec.size()-1);
+                    }
+                }
+            }
+        }
+         return res;  
+        
+    }
+}
+
+
+
+/*----OPTIMISED CODE (FOR CP PURPOSE)----*/
+
 class Solution {
     HashMap<String,Integer> map;
     String b;
