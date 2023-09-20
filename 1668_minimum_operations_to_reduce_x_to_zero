@@ -1,0 +1,41 @@
+class Solution {
+    public int minOperations(int[] nums, int x) {
+         int total=0;
+         for(int i=0;i<nums.length;i++)
+         {
+             total+=nums[i];
+         }
+         if(total<x)return -1;
+         int sum=total-x;
+         int curr=0;
+         int maxlen=Integer.MIN_VALUE;
+         int i=0;
+         int j=0;
+         while(j<nums.length)
+         {
+             curr+=nums[j];
+             if(curr<sum)
+             {
+                 j++;
+             }
+             else if(curr==sum)
+             {
+                 maxlen=Math.max(j-i+1,maxlen);
+                 j++;
+             }
+             else 
+             {
+                 while(i<nums.length&&curr>sum)
+                 {
+                     curr-=nums[i];
+                      
+                     i++;
+                     if(curr==sum) maxlen=Math.max(j-i+1,maxlen);
+                 }
+                 j++;
+             }
+         }
+         if(maxlen==Integer.MIN_VALUE)return -1;
+         return nums.length-maxlen;
+    }
+}
