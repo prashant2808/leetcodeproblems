@@ -1,0 +1,54 @@
+class Solution {
+     class Tuple{
+        int dis;
+        int row;
+        int col;
+        public Tuple(int dis,int row,int col){
+            this.dis=dis;
+            this.row=row;
+            this.col=col;
+        }
+    }
+    public int minimumEffortPath(int[][] heights) {
+         PriorityQueue<Tuple> pq= new PriorityQueue<>((a,b)-> a.dis-b.dis);
+        int m=heights.length;
+        int n=heights[0].length;
+        int [][] dist= new int [m][n];
+        for(int i=0;i<m;i++)
+        {
+            Arrays.fill(dist[i],(int)(1e9));
+        }
+        dist[0][0]=0;
+        pq.offer(new Tuple(0,0,0));
+        int [] dirx={-1,0,0,1};
+        int  []diry={0,-1,1,0};
+        while(!pq.isEmpty())
+        {
+            Tuple tp= pq.poll();
+            int dis=tp.dis;
+            int row=tp.row;
+            int col=tp.col;
+            if(row==m-1&&col==n-1)return dis;
+             
+            for(int i=0;i<4;i++)
+            {
+                int newr=row+dirx[i];
+                int newc=col+diry[i];
+                if(newr<m&&newr>=0&&newc<n&&newc>=0)
+                {
+                    int maxh=Math.max(Math.abs(heights[newr][newc]-heights[row][col]),dis);
+                    if(maxh<dist[newr][newc])
+                    {
+                        dist[newr][newc]=maxh;
+                        
+                        pq.offer( new Tuple(maxh,newr,newc));
+                        
+                    }
+                }
+            }
+        }
+        return -1;
+         
+
+    }
+}
