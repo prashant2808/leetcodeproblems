@@ -1,0 +1,59 @@
+lass Solution {
+     static int mod=1000000007;
+   static class Pair{
+         int node;
+        long dis;
+        public Pair(int node,long dis){
+             this.node=node;
+            this.dis=dis;
+        }
+    }
+
+    public int countPaths(int n, int[][] roads) {
+          ArrayList<ArrayList<Pair>> adj= new ArrayList<>();
+       for(int i=0;i<n;i++)adj.add(new ArrayList());
+     for(int i=0;i<roads.length;i++)
+       {
+           adj.get(roads[i][0]).add(new Pair(roads[i][1],roads[i][2]));
+           adj.get(roads[i][1]).add(new Pair(roads[i][0],roads[i][2]));
+       }
+       
+        
+       int [] ways= new int[n];
+       long [] dist= new long [n];
+       for(int i=0;i<n;i++)
+       {
+           dist[i]=Long.MAX_VALUE;
+           ways[i]=0;
+       }
+       dist[0]=0;
+       ways[0]=1;
+       PriorityQueue<Pair> pq= new PriorityQueue<>((a,b)-> (int) (a.dis-b.dis));
+       pq.offer( new Pair(0,0));
+       while(!pq.isEmpty()){
+           Pair p= pq.poll();
+           long dis=p.dis;
+           int node =p.node;
+           for(Pair pr: adj.get(node))
+           {
+               long adjdis= pr.dis;
+               int adjnode=pr.node;
+               if(dis+adjdis<dist[adjnode])
+               {
+                   pq.offer( new Pair(adjnode,dis+adjdis));
+                   dist[adjnode]=adjdis+dis;
+                   ways[adjnode]=ways[node];
+               }
+               else if(dis+adjdis==dist[adjnode])
+                {
+                    ways[adjnode]=(ways[adjnode]+ways[node])%mod;
+                }
+           }
+       }
+       return ways[n-1]%mod;
+       
+   
+   
+        
+    }
+}
