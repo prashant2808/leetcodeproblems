@@ -1,14 +1,16 @@
-import java.util.Scanner;
+ import java.util.Scanner;
 import java.util.*;
 class DisjointSet{
 
     ArrayList<Integer> parent= new ArrayList<>();
     ArrayList<Integer> rank= new ArrayList<>();
+    ArrayList<Integer> size= new ArrayList<>();
     public DisjointSet(int n){
         for(int i=0;i<=n;i++)
         {
             parent.add(i);
             rank.add(0);
+            size.add(1);
         }
     }
     public int findpar(int node)
@@ -41,18 +43,48 @@ class DisjointSet{
         }
 
     }
+    public void unionbysize(int u,int v)
+    {
+        int ulp_u=findpar(u);
+        int ulp_v=findpar(v);
+        if(ulp_u==ulp_v){
+            return ;
+        }
+        if(rank.get(ulp_u)<rank.get(ulp_v))
+        {
+            parent.set(ulp_u,ulp_v);
+            size.set(ulp_v,size.get(ulp_v)+size.get(ulp_u));
+        }
+        else
+        {
+            parent.set(ulp_v,ulp_u);
+            size.set(ulp_u,size.get(ulp_u)+size.get(ulp_v));
+        }
+
+
+    }
 }
 public class Main {
 
     public static void main(String[] args) {
    DisjointSet ds= new DisjointSet(7);
-        ds.unionbyrank(1,2);
+        /*ds.unionbyrank(1,2);
         ds.unionbyrank(2,3);
         ds.unionbyrank(4,5);
         ds.unionbyrank(6,7);
         ds.unionbyrank(5,6);
         System.out.println(ds.findpar(3)==ds.findpar(7));
-        ds.unionbyrank(3,7);
+        ds.unionbysize(3,7);
         System.out.println(ds.findpar(3)==ds.findpar(7));
+        */
+        ds.unionbysize(1,2);
+        ds.unionbysize(2,3);
+        ds.unionbysize(4,5);
+        ds.unionbysize(6,7);
+        ds.unionbysize(5,6);
+        System.out.println(ds.findpar(3)==ds.findpar(7));
+        ds.unionbysize(3,7);
+        System.out.println(ds.findpar(3)==ds.findpar(7));
+
     }
 }
