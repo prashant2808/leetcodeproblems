@@ -1,0 +1,43 @@
+class Solution {
+    public int countPalindromicSubsequence(String s) {
+        int ans=0;
+        for(int i=97;i<=122;i++)
+        {
+            char ch=(char)i;
+            int firstid=-1;
+            int lastid=-1;
+            HashSet<Character> set= new HashSet<>();
+            for(int j=0;j<s.length();j++)
+            {
+                if(s.charAt(j)==ch)
+                {
+                    firstid=j;
+                    break;
+                }
+
+            }
+            for(int j=s.length()-1;j>=0;j--)
+            {
+                if(s.charAt(j)==ch)
+                {
+                    lastid=j;
+                    break;
+                }
+
+            }
+            if(firstid!=-1&&lastid!=-1)
+            {
+                for(int j=firstid+1;j<lastid;j++)
+                {
+                    set.add(s.charAt(j));
+
+                }
+            }
+            ans+=set.size();
+            
+
+        }
+        return ans;
+         
+    }
+}
