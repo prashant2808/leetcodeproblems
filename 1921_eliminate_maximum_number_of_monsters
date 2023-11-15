@@ -1,0 +1,27 @@
+ 
+class Solution {
+    public int eliminateMaximum(int[] dist, int[] speed) {
+         
+         PriorityQueue<Double> pq= new PriorityQueue<>();
+         for(int i=0;i<speed.length;i++)
+         {
+             pq.offer(Math.ceil((double)dist[i]/speed[i]));
+              
+         }
+         
+         int currtime=0;
+         int monster=0;
+         while(!pq.isEmpty())
+         {
+             double monster_arrival_time=pq.poll();
+             if(currtime>=monster_arrival_time){
+                 return monster;
+             }
+             monster++;
+             currtime++;
+         }
+          
+          return monster;
+        
+    }
+}
