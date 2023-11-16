@@ -1,0 +1,44 @@
+class Solution {
+    public String findDifferentBinaryString(String[] nums) {
+        HashSet<Integer> set= new HashSet<>();
+        for(int i=0;i<nums.length;i++)
+        {
+            set.add(valueofstring(nums[i]));
+        }
+        int x=0;
+        while(set.contains(x))x++;
+        String res=binary(x);
+        while(res.length()<nums[0].length())
+        {
+             res="0"+res;
+        }
+
+        return res;
+    }
+    int valueofstring(String s){
+        int ans=0;
+        int x=0;
+        for(int i=s.length()-1;i>=0;i--)
+        {
+            int b=(int)(s.charAt(i)-'0');
+            if(b==1)
+            ans+=(int)(Math.pow(2,x));
+            x++;
+        }
+        return ans;
+
+    }
+    String binary(int x)
+    {
+        String ans="";
+        while(x!=0)
+        {
+            if((x&1)==1)ans="1"+ans;
+            else ans="0"+ans;
+            x>>=1;
+        }
+        return ans;
+    }
+
+
+}
