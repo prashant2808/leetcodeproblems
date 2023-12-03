@@ -1,0 +1,24 @@
+class Solution {
+    public int numRollsToTarget(int n, int k, int target) {
+        Integer dp[][]= new Integer [n+1][target+1];
+        return findways(dp,n,k,target);
+    }
+    int findways(Integer [][]dp,int n,int k,int target)
+    {
+         
+        if(n==0||target<=0){
+           if(target==0&&n==0)return 1;
+         return 0;
+        }
+        if(dp[n][target]!=null)return dp[n][target];
+        int curr=0;
+        for(int i=1;i<=k;i++)
+        {
+            curr=(curr+findways(dp,n-1,k,target-i))%1000000007;
+        }
+        dp[n][target]=curr;
+        return curr;
+    }
+
+    
+}
