@@ -1,0 +1,117 @@
+// RECURSIVE (GIVES TLE)
+
+
+class Solution {
+    public int minimumTotal(List<List<Integer>> triangle) {
+        return sum(0,0,triangle);
+    }
+    int sum(int i, int j,List<List<Integer>> tri)
+    {
+        if(i==tri.size()||j==tri.get(i).size())
+        {
+            return 0;
+        }
+        int x=tri.get(i).get(j)+sum(i+1,j,tri);
+        int y=tri.get(i).get(j)+sum(i+1,j+1,tri);
+        return Math.min(x,y);
+    }
+    
+}
+
+// MEMOIZATION   
+
+
+class Solution {
+    public int minimumTotal(List<List<Integer>> triangle) {
+         
+        int [][] dp= new int [triangle.size()][triangle.get(triangle.size()-1).size()];
+        for(int i=0;i<triangle.size();i++)Arrays.fill(dp[i],-1);
+        return sum(0,0,triangle,dp);
+    }
+    int sum(int i, int j,List<List<Integer>> tri,int [][] dp)
+    {
+        if(i==tri.size()||j==tri.get(i).size())
+        {
+            return 0;
+        }
+        if(dp[i][j]!=-1)return dp[i][j];
+        int x=tri.get(i).get(j)+sum(i+1,j,tri,dp);
+        int y=tri.get(i).get(j)+sum(i+1,j+1,tri,dp);
+        return dp[i][j]=Math.min(x,y);
+    }
+}
+
+
+// TABULATION  O(M*N) SPACE  
+
+
+class Solution {
+    public int minimumTotal(List<List<Integer>> triangle) {
+         
+         int m=triangle.size();
+         int n=triangle.get(m-1).size();
+        int [][] dp= new int [m+1][n+1];
+        dp[0][0]=triangle.get(0).get(0);
+        for(int i=1;i<m;i++)
+        {
+            List<Integer> temp= triangle.get(i);
+            for(int j=0;j<temp.size();j++)
+            {
+                int min1=Integer.MAX_VALUE;
+                int min2=Integer.MAX_VALUE;
+               if(j<temp.size()-1) min1=dp[i-1][j];
+                if(j>0)min2=dp[i-1][j-1];
+               dp[i][j]=temp.get(j)+Math.min(min1,min2);
+            }
+        }
+        int ans=dp[m-1][0];
+        for(int i=0;i<n;i++)
+        {
+            ans=Math.min(ans,dp[m-1][i]);
+        }
+        return ans;
+         
+    }
+     
+}
+
+
+//SPACE OPTIMIZATION   O(N) SPACE
+
+
+
+class Solution {
+    public int minimumTotal(List<List<Integer>> triangle) {
+         
+         int m=triangle.size();
+         int n=triangle.get(m-1).size();
+         List<Integer> prev_dp= new ArrayList<>();
+        prev_dp.add(triangle.get(0).get(0));
+        for(int i=1;i<m;i++)
+        {
+            List<Integer> temp= triangle.get(i);
+            List<Integer> curr_dp= new ArrayList<>(temp);
+            for(int j=0;j<temp.size();j++)
+            {
+                int min1=Integer.MAX_VALUE;
+                int min2=Integer.MAX_VALUE;
+               if(j<temp.size()-1) min1=prev_dp.get(j);
+                if(j>0)min2=prev_dp.get(j-1);
+               curr_dp.set(j,curr_dp.get(j)+Math.min(min1,min2));
+            }
+            prev_dp=curr_dp;
+        }
+        int ans=prev_dp.get(0);
+        for(int i=0;i<n;i++)
+        {
+            ans=Math.min(ans,prev_dp.get(i));
+        }
+        return ans;
+         
+    }
+     
+}
+
+
+
+
