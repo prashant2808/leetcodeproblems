@@ -1,0 +1,35 @@
+// TABULATION SOLUTION
+class Solution {
+    public int maxSumAfterPartitioning(int[] arr, int k) {
+        int n=arr.length;
+        int []dp= new int [arr.length+1];
+        dp[n]=0;
+        for(int i=n-1;i>=0;i--){
+            int max=0;
+        int maxsum=0;
+        int len=0;
+        for(int id=i;id<Math.min(i+k,arr.length);id++){
+            len++;
+            max=Math.max(max,arr[id]);
+            maxsum=Math.max(maxsum,len*max+dp[id+1]);
+        }
+         dp[i]= maxsum;
+        }
+      return dp[0];   
+    }
+    /*  RECURSION ->MEMOIZATION SOLUTION
+    int solve(int [] arr, int k,int id,int []dp){
+        if(id==arr.length)return 0;
+        if(dp[id]!=-1)return dp[id];
+        int max=0;
+        int maxsum=0;
+        int len=0;
+        for(int i=id;i<Math.min(id+k,arr.length);i++){
+            len++;
+            max=Math.max(max,arr[i]);
+            maxsum=Math.max(maxsum,len*max+solve(arr,k,i+1,dp));
+        }
+        return dp[id]= maxsum;
+    }
+    */
+}
