@@ -1,0 +1,66 @@
+public class Solution {
+  static  long mod=1000000007;
+    public static int evaluateExp(String exp) {
+        // Write your code here.
+        int n=exp.length();
+        long [][][] dp= new long [n][n][2];
+        for(int i=0;i<n;i++){
+            for(int j=0;j<n;j++){
+                dp[i][j][0]=-1;
+                dp[i][j][1]=-1;
+            }
+        }
+        return (int)ways(exp,0,n-1,1,dp);
+    }
+    static long ways(String exp,int i,int j,int isTrue,long [][][]dp){
+        if(i>j)return 0;
+         
+        if(i==j){
+            if(isTrue==1){  // checking for ways of getting true
+                return exp.charAt(i)=='T'?1:0;
+            }
+            else   // checking for ways of getting false 
+            return exp.charAt(i)=='F'?1:0;
+             
+        }
+        if(dp[i][j][isTrue]!=-1)return dp[i][j][isTrue];
+        long ways=0;
+        for(int ind=i+1;ind<=j;ind++){
+            long lt=ways(exp,i,ind-1,1,dp);  // true from left
+            long lf=ways(exp,i,ind-1,0,dp);  // false from left
+            long rt=ways(exp,ind+1,j,1,dp);  // true from right
+            long rf=ways(exp,ind+1,j,0,dp);  // false from left
+            if(exp.charAt(ind)=='&'){
+                if(isTrue==1){  // checking for ways of getting true
+                  ways=(ways+(lt*rt)%mod)%mod;
+
+                }
+                else {
+                    ways=(ways+(lt*rf)%mod+(rt*lf)%mod+(lf*rf)%mod)%mod;
+                }
+            }
+            else if(exp.charAt(ind)=='|'){
+                if(isTrue==1){
+                    ways=(ways+(lt*rf)%mod+(rt*lf)%mod+(lt*rt)%mod)%mod;
+
+
+                }
+                else {
+                    ways=(ways+(lf*rf)%mod)%mod;
+
+                }
+            }
+            else if(exp.charAt(ind)=='^'){
+                if(isTrue==1){
+                    ways=(ways+(lf*rt)%mod+(lt*rf)%mod)%mod;
+                }
+                else {
+                    ways=(ways+(lt*rt)%mod+(lf*rf)%mod)%mod;
+
+                }
+
+            }
+        }
+        return dp[i][j][isTrue]= ways;
+    }
+}
